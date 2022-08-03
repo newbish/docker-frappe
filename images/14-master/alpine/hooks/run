@@ -16,7 +16,7 @@ COMMIT_MSG=$(git log -1 --format=%s)
 
 export DOCKER_REPO=kkikta/docker-frappe
 export DOCKERFILE_PATH=Dockerfile
-export DOCKER_TAG=13
+export DOCKER_TAG=14
 
 if [ -n "${DOCKER_REGISTRY}" ]; then
     export IMAGE_NAME=${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_TAG}
