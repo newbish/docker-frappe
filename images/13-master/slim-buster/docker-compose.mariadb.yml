@@ -41,6 +41,7 @@ services:
     build:
       context: .
     image: ${IMAGE_NAME}
+    platform: linux/amd64
     container_name: frappe_app
     command: app
     #restart: always
@@ -99,8 +100,8 @@ services:
       - REDIS_QUEUE_HOST=frappe_redis_queue
       - REDIS_SOCKETIO_HOST=frappe_redis_socketio
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
-      - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
+      - ./data/sites:/home/frappe/frappe-bench/sites
+      - ./data/logs:/home/frappe/frappe-bench/logs
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -143,7 +144,7 @@ services:
       - MYSQL_USER=${FRAPPE_DB_NAME}
       - MYSQL_PASSWORD=${FRAPPE_DB_PWD}
     volumes:
-      - /srv/erpnext/db:/var/lib/mysql
+      - ./data/db:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -162,6 +163,7 @@ services:
 
   frappe_scheduler:
     image: ${IMAGE_NAME}
+    platform: linux/amd64
     container_name: frappe_scheduler
     command: scheduler
     #restart: always
@@ -178,6 +180,7 @@ services:
 
   frappe_worker_default:
     image: ${IMAGE_NAME}
+    platform: linux/amd64
     container_name: frappe_worker_default
     command: worker-default
     #restart: always
@@ -194,6 +197,7 @@ services:
 
   frappe_worker_long:
     image: ${IMAGE_NAME}
+    platform: linux/amd64
     container_name: frappe_worker_long
     command: worker-long
     #restart: always
@@ -210,6 +214,7 @@ services:
 
   frappe_worker_short:
     image: ${IMAGE_NAME}
+    platform: linux/amd64
     container_name: frappe_worker_short
     command: worker-short
     #restart: always
@@ -226,6 +231,7 @@ services:
 
   frappe_socketio:
     image: ${IMAGE_NAME}
+    platform: linux/amd64
     container_name: frappe_socketio
     command: node-socketio
     #restart: always

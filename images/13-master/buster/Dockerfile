@@ -90,7 +90,7 @@ RUN set -ex; \
     pip install --upgrade setuptools pip pip-tools; \
     pip --version
 
-ARG VERSION=v13.7.0
+ARG VERSION=v13.36.3
 ARG FRAPPE_USER=frappe
 ARG FRAPPE_UID=1000
 ARG FRAPPE_GID=1000
@@ -256,7 +256,7 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       product="Frappe" \
       version=$VERSION \
       org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/Monogramm/docker-frappe" \
+      org.label-schema.vcs-url="https://github.com/kkikta/docker-frappe" \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name="Frappe" \
       org.label-schema.description="Python + JS based metadata driven, full-stack web-application framework." \

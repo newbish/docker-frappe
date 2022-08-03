@@ -53,7 +53,7 @@ min_versionFrappe=11
 dockerLatest='13.5'
 dockerDefaultVariant='alpine'
 
-dockerRepo="monogramm/docker-frappe"
+dockerRepo="kkikta/docker-frappe"
 latestsFrappe=(
 	develop
 	$( curl -fsSL 'https://api.github.com/repos/frappe/frappe/tags' |tac|tac| \

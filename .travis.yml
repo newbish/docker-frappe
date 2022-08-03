@@ -23,15 +23,15 @@ install:
   - echo "Changing to travis test directory ($travis_dir)"
   - cd "$travis_dir"
   # Prepare test image for local build version and variant
-  - sed -i -e "s|FROM monogramm/docker-frappe:.*|FROM ${IMAGE_NAME}|g" test/Dockerfile
+  - sed -i -e "s|FROM kkikta/docker-frappe:.*|FROM ${IMAGE_NAME}
   # Test container build
   - travis_retry docker-compose -f "docker-compose.${DATABASE}.yml" build
 
 before_script:
   - docker images
   # Set permissions for persistence
-  - mkdir -p '/srv/erpnext/frappe/sites' '/srv/erpnext/frappe/logs'
-  - chown 1000:1000 '/srv/erpnext/frappe/sites' '/srv/erpnext/frappe/logs'
+  - mkdir -p './data/sites' './data/logs'
+  - chown 1000:1000 './data/sites' './data/logs'
 
 script:
   - echo "Changing to travis test directory ($travis_dir)"
@@ -86,7 +86,7 @@ after_script:
   - sudo mkdir -p '/home/frappe/frappe-bench/apps'
   - sudo ln -sf "$home" '/home/frappe/frappe-bench/apps/erpnext_template'
   # Copy and convert coverage to XML format
-  - cp '/srv/erpnext/frappe/sites/.coverage' .coverage
+  - cp './data/sites/.coverage' .coverage
   - coverage xml
   # Publish coverage to Coveralls
   - coveralls -b "$home" -d "$home/.coverage"

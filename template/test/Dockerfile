@@ -1,6 +1,6 @@
 # For development or CI, build from local Dockerfile (.travis.yml will update base before tests)
 # For production, download prebuilt image
-FROM monogramm/docker-frappe:%%FRAPPE_VERSION%%-%%VARIANT%%
+FROM kkikta/docker-frappe:%%FRAPPE_VERSION%%-%%VARIANT%%
 
 COPY docker_test.sh /docker_test.sh
 

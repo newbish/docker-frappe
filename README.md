@@ -1,9 +1,9 @@
 [![License: AGPL v3][uri_license_image]][uri_license]
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Monogramm/docker-frappe/Docker%20Image%20CI)](https://github.com/Monogramm/docker-frappe/actions)
-[![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogramm/docker-frappe.svg)](https://hub.docker.com/r/monogramm/docker-frappe/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-frappe.svg)](https://hub.docker.com/r/monogramm/docker-frappe/)
-[![](https://images.microbadger.com/badges/version/monogramm/docker-frappe.svg)](https://microbadger.com/images/monogramm/docker-frappe)
-[![](https://images.microbadger.com/badges/image/monogramm/docker-frappe.svg)](https://microbadger.com/images/monogramm/docker-frappe)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/kkikta/docker-frappe/Docker%20Image%20CI)](https://github.com/kkikta/docker-frappe/actions)
+[![Docker Automated buid](https://img.shields.io/docker/cloud/build/kkikta/docker-frappe.svg)](https://hub.docker.com/r/kkikta/docker-frappe/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/kkikta/docker-frappe.svg)](https://hub.docker.com/r/kkikta/docker-frappe/)
+[![](https://images.microbadger.com/badges/version/kkikta/docker-frappe.svg)](https://microbadger.com/images/kkikta/docker-frappe)
+[![](https://images.microbadger.com/badges/image/kkikta/docker-frappe.svg)](https://microbadger.com/images/kkikta/docker-frappe)
 
 # Frappe custom Docker container
 
@@ -37,7 +37,7 @@ Full-stack web application framework that uses Python and MariaDB on the server 
 
 ## Supported tags
 
-<https://hub.docker.com/r/monogramm/docker-frappe/>
+<https://hub.docker.com/r/kkikta/docker-frappe/>
 
 <!-- >Docker Tags -->
 
@@ -224,7 +224,7 @@ This image is designed to be used in a micro-service environment using docker-co
 
 ## Questions / Issues
 
-If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-frappe) and write an issue.
+If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/kkikta/docker-frappe) and write an issue.
 
 ## Documentation
 
