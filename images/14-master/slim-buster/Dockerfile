@@ -88,9 +88,10 @@ RUN set -ex; \
     tar -C /usr/local/bin -xzvf "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"; \
     rm "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"; \
     pip install --upgrade setuptools pip pip-tools; \
+    pip install markupsafe==2.0.1; \
     pip --version
 
-ARG VERSION=v13.35.2
+ARG VERSION=v14.0.0
 ARG FRAPPE_USER=frappe
 ARG FRAPPE_UID=1000
 ARG FRAPPE_GID=1000
@@ -146,8 +147,8 @@ RUN set -ex; \
     rm -rf node_modules; \
     cd frappe-bench; \
     mkdir -p apps logs sites config; \
-    sed -i -e "s|^werkzeug$|werkzeug==0.16.1|g" apps/frappe/requirements.txt; \
-    grep 'ldap3==2.7' apps/frappe/requirements.txt || echo 'ldap3==2.7' >> apps/frappe/requirements.txt; \
+    # sed -i -e "s|^werkzeug$|werkzeug==0.16.1|g" apps/frappe/requirements.txt; \
+    # grep 'ldap3==2.7' apps/frappe/requirements.txt || echo 'ldap3==2.7' >> apps/frappe/requirements.txt; \
     test ! "$FRAPPE_BRANCH" = "v10.x.x" && bench setup env --python $(which python3.7) ; \
     sudo bench setup sudoers "$FRAPPE_USER"
 

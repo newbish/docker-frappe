@@ -15,82 +15,87 @@
 ##    You should have received a copy of the GNU Affero General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-FROM python:3.7-slim-buster
+FROM madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10-606718795 AS wkhtmltopdf-builder
 
-ARG NODE_VERSION=12
+FROM python:3.7-alpine3.10
 
-ENV DEBIAN_FRONTEND="noninteractive"
-ARG WKHTMLTOX_VERSION=0.12.4
+COPY --from=wkhtmltopdf-builder \
+    /bin/wkhtmltopdf /bin/wkhtmltopdf
+
 ARG DOCKERIZE_VERSION=v0.6.1
 
 # Frappe base environment
 RUN set -ex; \
-    apt-get update; \
-    apt-get install -y software-properties-common gnupg2 curl; \
-    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8; \
-    add-apt-repository "deb http://ams2.mirrors.digitalocean.com/mariadb/repo/10.5/debian buster main"; \
-    curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash -; \
-    curl -sS "https://dl.yarnpkg.com/debian/pubkey.gpg" | apt-key add -; \
-    apt-get update; \
-    apt-get install -y --allow-unauthenticated \
-        sudo \
-        wget \
-        nodejs \
-        python-mysqldb \
+    apk add --update \
+        alpine-sdk \
+        busybox-suid \
+        dbus \
         git \
-        build-essential \
-        python-setuptools \
+        glib \
+        linux-headers \
+        libgcc \
+        libintl \
+        libstdc++ \
+        libxslt \
+        libxslt-dev \
+        nodejs \
+        nodejs-npm \
+        openntpd \
+        py-setuptools \
+        py-openssl \
+        py-ldap3 \
         python-dev \
-        libffi-dev \
-        libssl-dev  \
-        ntp \
-        screen \
+        wget \
+        zlib-dev \
+    ; \
+    git --version; \
+    node --version; \
+    npm --version; \
+    npm install -g --unsafe-perm yarn; \
+    yarn --version; \
+    apk add --update \
         mariadb-client \
         mariadb-common \
+        mariadb-dev \
         postgresql-client \
-        postgresql-client-common \
-        libxslt1.1 \
-        libxslt1-dev \
-        libcrypto++-dev \
-        python-openssl \
-        python-ldap3 \
-        python-psycopg2 \
-        libtiff5-dev \
-        libjpeg62-turbo-dev \
-        liblcms2-dev \
-        libwebp-dev \
-        tcl8.6-dev \
-        tk8.6-dev \
-        python-tk \
-        zlib1g-dev \
-        libfreetype6-dev \
-        fontconfig \
-        libxrender1 \
-        libxext6 \
-        xfonts-75dpi \
-        xfonts-base \
+        postgresql-dev \
+        postgresql-libs \
     ; \
-    test "${NODE_VERSION}" = "8" && apt-get install -y --allow-unauthenticated npm; \
+    apk add --update \
+        jpeg-dev \
+        lcms2-dev \
+        libffi-dev \
+        libwebp-dev \
+        tiff-dev \
+    ; \
+    apk add --update \
+        freetype-dev \
+        fontconfig \
+        libx11 \
+        libxext \
+        libxrender \
+        screen \
+        ttf-freefont \
+        ttf-dejavu \
+        ttf-droid \
+        ttf-liberation \
+        ttf-ubuntu-font-family \
+        xvfb \
+    ; \
     mkdir /tmp/.X11-unix; \
     chmod 777 /tmp/.X11-unix; \
     chown root:root /tmp/.X11-unix; \
-    node --version; \
-    npm --version; \
-    npm install -g yarn; \
-    yarn --version; \
-    rm -rf /var/lib/apt/lists/*; \
-    wget "https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOX_VERSION}/wkhtmltox-${WKHTMLTOX_VERSION}_linux-generic-amd64.tar.xz"; \
-    tar xf "wkhtmltox-${WKHTMLTOX_VERSION}_linux-generic-amd64.tar.xz"; \
-    mv wkhtmltox/bin/* /usr/local/bin/; \
-    rm "wkhtmltox-${WKHTMLTOX_VERSION}_linux-generic-amd64.tar.xz"; \
+    rm -rf /var/cache/apk/*; \
+    echo 'Set disable_coredump false' > /etc/sudo.conf; \
     wkhtmltopdf --version; \
     wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"; \
     tar -C /usr/local/bin -xzvf "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"; \
     rm "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz"; \
     pip install --upgrade setuptools pip pip-tools; \
+    pip install markupsafe==2.0.1; \
     pip --version
 
-ARG VERSION=v13.35.2
+ARG VERSION=v14.0.0
 ARG FRAPPE_USER=frappe
 ARG FRAPPE_UID=1000
 ARG FRAPPE_GID=1000
@@ -102,8 +107,8 @@ ENV FRAPPE_USER=${FRAPPE_USER} \
     FRAPPE_BRANCH=${VERSION}
 
 RUN set -ex; \
-    groupadd -r "${FRAPPE_USER}" -g "${FRAPPE_GID}"; \
-    useradd -r -m -g "${FRAPPE_USER}" -u "${FRAPPE_UID}" "${FRAPPE_USER}"; \
+    addgroup -S "${FRAPPE_USER}" -g "${FRAPPE_GID}"; \
+    adduser -D -G "${FRAPPE_USER}" -u "${FRAPPE_UID}" "${FRAPPE_USER}"; \
     echo 'frappe ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers
 
 USER $FRAPPE_USER
@@ -146,8 +151,8 @@ RUN set -ex; \
     rm -rf node_modules; \
     cd frappe-bench; \
     mkdir -p apps logs sites config; \
-    sed -i -e "s|^werkzeug$|werkzeug==0.16.1|g" apps/frappe/requirements.txt; \
-    grep 'ldap3==2.7' apps/frappe/requirements.txt || echo 'ldap3==2.7' >> apps/frappe/requirements.txt; \
+    # sed -i -e "s|^werkzeug$|werkzeug==0.16.1|g" apps/frappe/requirements.txt; \
+    # grep 'ldap3==2.7' apps/frappe/requirements.txt || echo 'ldap3==2.7' >> apps/frappe/requirements.txt; \
     test ! "$FRAPPE_BRANCH" = "v10.x.x" && bench setup env --python $(which python3.7) ; \
     sudo bench setup sudoers "$FRAPPE_USER"
 
