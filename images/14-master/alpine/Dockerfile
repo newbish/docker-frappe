@@ -17,7 +17,7 @@
 ##
 FROM madnight/alpine-wkhtmltopdf-builder:0.12.5-alpine3.10-606718795 AS wkhtmltopdf-builder
 
-FROM python:3.7-alpine3.10
+FROM --platform=linux/amd64 python:3.7-alpine3.10
 
 COPY --from=wkhtmltopdf-builder \
     /bin/wkhtmltopdf /bin/wkhtmltopdf
@@ -257,7 +257,7 @@ ENV DOCKER_TAG=${TAG} \
     DOCKER_VCS_REF=${VCS_REF} \
     DOCKER_BUILD_DATE=${BUILD_DATE}
 
-LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
+LABEL maintainer="Keith Kikta @newbish" \
       product="Frappe" \
       version=$VERSION \
       org.label-schema.vcs-ref=$VCS_REF \

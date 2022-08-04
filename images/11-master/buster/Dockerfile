@@ -15,7 +15,7 @@
 ##    You should have received a copy of the GNU Affero General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-FROM python:3.7-buster
+FROM --platform=linux/amd64 python:3.7-buster
 
 ARG NODE_VERSION=10
 
@@ -252,7 +252,7 @@ ENV DOCKER_TAG=${TAG} \
     DOCKER_VCS_REF=${VCS_REF} \
     DOCKER_BUILD_DATE=${BUILD_DATE}
 
-LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
+LABEL maintainer="Keith Kikta @newbish" \
       product="Frappe" \
       version=$VERSION \
       org.label-schema.vcs-ref=$VCS_REF \

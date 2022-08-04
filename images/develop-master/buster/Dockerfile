@@ -252,7 +252,7 @@ ENV DOCKER_TAG=${TAG} \
     DOCKER_VCS_REF=${VCS_REF} \
     DOCKER_BUILD_DATE=${BUILD_DATE}
 
-LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
+LABEL maintainer="Keith Kikta @newbish" \
       product="Frappe" \
       version=$VERSION \
       org.label-schema.vcs-ref=$VCS_REF \
