@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# See documentation for details:
-# https://docs.docker.com/docker-hub/builds/advanced/
-
-#echo 'Set permissions for persisted data...'
-#mkdir -p './data/sites' './data/logs'
-#chown "1000:1000" './data/sites' './data/logs'
-#chmod 777 './data/sites' './data/logs'
