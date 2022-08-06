@@ -1,6 +1,6 @@
 # For development or CI, build from local Dockerfile (.travis.yml will update base before tests)
 # For production, download prebuilt image
-FROM kkikta/docker-frappe:14-debian-slim
+FROM kkikta/docker-frappe:14-slim-bullseye
 
 COPY docker_test.sh /docker_test.sh
 
