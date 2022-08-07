@@ -8,19 +8,19 @@ set -e
 echo "Waiting to ensure everything is fully ready for the tests..."
 sleep 60
 
-echo "Checking content of sites directory..."
-if [ ! -f "./sites/apps.txt" ] || [ ! -f "./sites/.docker-app-init" ] || [ ! -f "./sites/currentsite.txt" ] || [ ! -f "./sites/.docker-site-init" ] || [ ! -f "./sites/.docker-init" ]; then
-    echo 'Apps and site are not initalized?!'
-    ls -al "./sites"
-    exit 1
-fi
-
 echo "Checking main containers are reachable..."
 if ! sudo ping -c 10 -q frappe_db ; then
     echo 'Database container is not responding!'
     echo 'Check the following logs for details:'
     tail -n 100 logs/*.log
     exit 2
+fi
+
+echo "Checking content of sites directory..."
+if [ ! -f "./sites/apps.txt" ] || [ ! -f "./sites/.docker-app-init" ] || [ ! -f "./sites/currentsite.txt" ] || [ ! -f "./sites/.docker-site-init" ] || [ ! -f "./sites/.docker-init" ]; then
+    echo 'Apps and site are not initalized?!'
+    ls -al "./sites"
+    exit 1
 fi
 
 if ! sudo ping -c 10 -q frappe_app ; then
@@ -59,6 +59,7 @@ bench set-config allow_tests true -g
 echo "Checking environment for '${FRAPPE_APP_TO_TEST}' tests..."
 bench doctor
 bench enable-scheduler
+bench setup requirements --dev
 bench doctor
 
 ################################################################################

@@ -133,7 +133,8 @@ RUN set -ex; \
     test "$BENCH_BRANCH" = "4.1" && sudo pip install pip; \
     pip install frappe-bench;
 
-ENV PATH      /home/frappe/.local/bin:$PATH
+ENV PATH_FRAPPE      /home/frappe/.local/bin
+ENV PATH             $PATH_FRAPPE:$PATH
 
 RUN set -ex; \
     # git clone -b "$BENCH_BRANCH" --depth 1 'https://github.com/frappe/bench' bench-repo; \

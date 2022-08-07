@@ -284,6 +284,12 @@ bench_setup() {
     log "No app specified to reinstall"
   fi
 
+  if bench doctor; then
+    bench reinstall --yes \
+      | tee -a "${FRAPPE_WD}/logs/${WORKER_TYPE}-docker.log" 3>&1 1>&2 2>&3 \
+      | tee -a "${FRAPPE_WD}/logs/${WORKER_TYPE}-docker.err.log"
+  fi
+
   bench_build_apps
   bench_setup_database
 }

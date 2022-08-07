@@ -8,9 +8,7 @@ USER root
 
 RUN set -ex; \
     test 'debian-slim' = 'debian-slim' && apt-get update && apt-get install -y --allow-unauthenticated iputils-ping; \
-    chmod 755 /docker_test.sh; \
-    pip install coverage==4.5.4; \
-    pip install python-coveralls
+    chmod 755 /docker_test.sh;
 
 USER $FRAPPE_USER
 

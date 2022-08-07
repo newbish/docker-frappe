@@ -152,6 +152,7 @@ services:
       - MYSQL_PASSWORD=${FRAPPE_DB_PWD}
     volumes:
       - frappe_db:/var/lib/mysql
+      - ./frappe.cnf:/etc/mysql/mariadb.conf.d/51-frappe.cnf
       #- /etc/localtime:/etc/localtime:ro
       #- /etc/timezone:/etc/timezone:ro
 
